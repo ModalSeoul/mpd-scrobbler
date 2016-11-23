@@ -5,8 +5,8 @@ import json
 import requests
 from time import sleep
 
-Auth = 'https://modal.moe/api/api-token-auth/'
-Scrobble = 'https://modal.moe/api/scrobbles/'
+Auth = 'https://wilt.fm/api/api-token-auth/'
+Scrobble = 'https://wilt.fm/api/scrobbles/'
 
 post = requests.post
 get = requests.get
@@ -45,6 +45,8 @@ def query_mpd():
         query = os.popen('mpc current').read()
         artist = query.split(' - ')[0].strip()
         song = query.split(' - ')[1].strip()
+        if '(feat' in song.lower():
+            song = song.split('(feat')[0]
         Wilt.scrobble({'song': song, 'artist': artist})
     except:
         print('Non fatal exception. Query failed.')
